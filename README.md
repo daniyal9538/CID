@@ -15,4 +15,4 @@ The focus is to not make the best most amazing self driving solution ever, but t
 
 As this is an ongoing research project, I will not be allowed to post all the code into this repository, but  i will post what i can. Some of the code might not yet be fully finished.
 
-For further insight into the project, please read the pdf in this repository, it holds the initial design and inital work doen on this project
+For further insight into the project, please read the pdf file in this repository, it holds the initial design and inital work done on this project
