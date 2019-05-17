@@ -1,38 +1,9 @@
 import time
 import pygame
 import sys
-import helper
+from helper import *
 
-def text_objects(text, font):
-    textSurface = font.render(text, True, (255,255,0))
-    return textSurface, textSurface.get_rect()
 
-def message_display(text, x1, x2):
-    largeText = pygame.font.Font('freesansbold.ttf',20)
-    TextSurf, TextRect = text_objects(text, largeText)
-    TextRect.center = (((x2-x1)/2),(720/2))
-    screen.blit(TextSurf, TextRect)
-
-def display_with_lines(text):
-  i=0
-  for line in text:
-    largeText = pygame.font.Font('freesansbold.ttf',20)
-    TextSurf, TextRect = text_objects(line['text'], largeText)
-    x = line['XLoc']
-    TextRect.center = (((x[1]+x[0])/2),(720/2)+(i*20)+(15*i))
-    screen.blit(TextSurf,TextRect)
-    i+=1
-
-def display_with_linesA(text):
-  i=0
-  for line in text:
-    largeText = pygame.font.Font('freesansbold.ttf',20)
-    TextSurf, TextRect = text_objects(line['text'], largeText)
-    x = line['XLoc']
-    #print(x)
-    TextRect.center = (x,(720/2)+(i*20)+(15*i))
-    screen.blit(TextSurf,TextRect)
-    i+=1
 
 
 
@@ -48,14 +19,14 @@ l = [l1, l2]
 loc = [l, m, r]
 
 data=dict()
-data = helper.getFrameData('city_data.json')
-data = helper.delPoly(data)
+data = helper.getFrameData('city_data_100.json')
+#data = helper.delPoly(data)
 data = helper.getXLocA(data)
 
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
-for i in data:
+for count, i in enumerate(data):
   screen.fill((0,0,0))
   #x=x+x
   #y=y+y
@@ -70,9 +41,12 @@ for i in data:
     t1['XLoc'] = det['x_loc']
     #print(t1['XLoc'], det['midX'])
     text.append(t1)
-
-
-  display_with_linesA(text)
+  
+  min , max = laneBoundary(i['lanePts'], i['lanePolygon'])
+  print(int((min/480)*1280),int(((max-min)/480)*1280), min, max-min, count)
+  pygame.draw.rect(screen, (0,200,0), [int((min/480)*1280), 0, int(((max-min)/480)*1280), 720], 12)
+  display_with_linesA(text, screen)
+  
   pygame.display.update()
   #print(i)
   time.sleep(1)
