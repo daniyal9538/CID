@@ -34,22 +34,50 @@ for count, i in enumerate(data):
   #pygame.draw.rect(screen, color, pygame.Rect(x, x, y, y))
   #message_display('Test', l1, l2)
   text= []
+  text1=[]
   for det in i['objects']:
-    t1=dict()
-    t1['text'] = det['name']
-    #t1['XLoc'] = loc[det['x_loc']]
-    t1['XLoc'] = det['x_loc']
-    #print(t1['XLoc'], det['midX'])
-    text.append(t1)
+    if (det['name'] == 'traffic light'):
+      t1=dict()
+      t1['text'] = det['name']
+      #t1['XLoc'] = loc[det['x_loc']]
+      t1['XLoc'] = det['x_loc']
+      print(det['box_area'])
+      area = det['box_area']
+      if(area<=700):
+        t1["Yloc"] = 60
+        #print(60)
+      if(area <=1500 and area >700):
+        t1['Yloc'] = 120
+        print(120)
+
+      if(area <=5500 and area >1500):
+        t1['Yloc'] = 360
+      if( area >5500):
+        t1['Yloc'] = 600
+      text1.append(t1)
   
-  min , max = laneBoundary(i['lanePts'], i['lanePolygon'])
-  print(int((min/480)*1280),int(((max-min)/480)*1280), min, max-min, count)
-  pygame.draw.rect(screen, (0,200,0), [int((min/480)*1280), 0, int(((max-min)/480)*1280), 720], 12)
-  display_with_linesA(text, screen)
+      min , max = laneBoundary(i['lanePts'], i['lanePolygon'])
+      #print(int((min/480)*1280),int(((max-min)/480)*1280), min, max-min, count)
+      pygame.draw.rect(screen, (0,200,0), [int((min/480)*1280), 0, int(((max-min)/480)*1280), 720], 12)
+      display_with_linesY(text1, screen)
+  
+
+    else:
+      t1=dict()
+      t1['text'] = det['name']
+      #t1['XLoc'] = loc[det['x_loc']]
+      t1['XLoc'] = det['x_loc']
+      #print(t1['XLoc'], det['midX'])
+      text.append(t1)
+  
+      min , max = laneBoundary(i['lanePts'], i['lanePolygon'])
+      #print(int((min/480)*1280),int(((max-min)/480)*1280), min, max-min, count)
+      pygame.draw.rect(screen, (0,200,0), [int((min/480)*1280), 0, int(((max-min)/480)*1280), 720], 12)
+      display_with_linesA(text, screen)
   
   pygame.display.update()
   #print(i)
-  time.sleep(1)
+  time.sleep(0.1)
   
   pressed = pygame.key.get_pressed()
   for event in pygame.event.get():
