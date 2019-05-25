@@ -19,15 +19,31 @@ l = [l1, l2]
 loc = [l, m, r]
 
 data=dict()
-data = helper.getFrameData('city_data_100.json')
+data = helper.getFrameData('demo_city_data_100.json')
 #data = helper.delPoly(data)
 data = helper.getXLocA(data)
+
+green = (0,200, 0)
+grey = (200, 200, 200)
+yellow = (222,200,0)
+blue = (0,0,200)
 
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
+
+
 for count, i in enumerate(data):
   screen.fill((0,0,0))
+  min , max = laneBoundary(i['lanePts'], i['lanePolygon'])
+  #print(int((min/480)*1280),int(((max-min)/480)*1280), min, max-min, count)
+  pygame.draw.rect(screen, grey, [0, 0, 1280, 144], 2)
+  pygame.draw.rect(screen, grey, [0, 0, 1280, 288], 2)
+  pygame.draw.rect(screen, grey, [0, 0, 1280, 432], 2)
+  pygame.draw.rect(screen, grey, [0, 0, 1280, 576], 2)
+  pygame.draw.rect(screen, grey, [0, 0, 1280, 720], 2)
+  pygame.draw.rect(screen, green, [int((min/480)*1280), 0, int(((max-min)/480)*1280), 720], 12)
+  
   #x=x+x
   #y=y+y
   color = (255, 100, 0)
@@ -35,16 +51,51 @@ for count, i in enumerate(data):
   #message_display('Test', l1, l2)
   text= []
   for det in i['objects']:
-    t1=dict()
-    t1['text'] = det['name']
-    #t1['XLoc'] = loc[det['x_loc']]
-    t1['XLoc'] = det['x_loc']
-    #print(t1['XLoc'], det['midX'])
-    text.append(t1)
+    if(det['name']=='traffic light'):
+      
+      x = det['x_loc']
+      h = 50
+      w = 50
+      area = det['box_area']
+      if(area <=144):
+        y = 72
+      elif(area >144 and area <= 221):
+        y = 216
+      elif(area>221 and area <=366):
+        y= 504
+      else:
+        y= 648
+      pygame.draw.rect(screen, yellow, [int(x-w), int(y-h), w, h])
+      print([int(x-w), int(y-h), int(x+w), int(y+h)], '  ', x, y)
+    
+    elif(det['name']=='car'):
+      x = det['x_loc']
+      h = 70
+      w = 70
+      h1 = 90
+      w1 = 90
+      area = det['box_area']
+      if(area <=144):
+        y = 72
+      elif(area >144 and area <= 221):
+        y = 216
+      elif(area>221 and area <=366):
+        y= 504
+      else:
+        y= 648
+      pygame.draw.rect(screen, blue, [int(x-w), int(y-h), w, h])
+      print([int(x-w), int(y-h), int(x+w), int(y+h)], '  ', x, y)
+    
+    else:
+      t1=dict()
+      
+      t1['text'] = det['name']
+      #t1['XLoc'] = loc[det['x_loc']]
+      t1['XLoc'] = det['x_loc']
+      #print(t1['XLoc'], det['midX'])
+      text.append(t1)
   
-  min , max = laneBoundary(i['lanePts'], i['lanePolygon'])
-  print(int((min/480)*1280),int(((max-min)/480)*1280), min, max-min, count)
-  pygame.draw.rect(screen, (0,200,0), [int((min/480)*1280), 0, int(((max-min)/480)*1280), 720], 12)
+  
   display_with_linesA(text, screen)
   
   pygame.display.update()
