@@ -66,7 +66,7 @@ for count, i in enumerate(data):
       else:
         y= 648
       pygame.draw.rect(screen, yellow, [int(x-w), int(y-h), w, h])
-      print([int(x-w), int(y-h), int(x+w), int(y+h)], '  ', x, y)
+     # print([int(x-w), int(y-h), int(x+w), int(y+h)], '  ', x, y)
     
     elif(det['name']=='car'):
       x = det['x_loc']
@@ -75,16 +75,41 @@ for count, i in enumerate(data):
       h1 = 90
       w1 = 90
       area = det['box_area']
-      if(area <=144):
+      if(area <=700):
         y = 72
-      elif(area >144 and area <= 221):
+      elif(area >700 and area <= 1596):
         y = 216
-      elif(area>221 and area <=366):
+      elif(area > 1596 and area <=5498):
         y= 504
       else:
         y= 648
       pygame.draw.rect(screen, blue, [int(x-w), int(y-h), w, h])
-      print([int(x-w), int(y-h), int(x+w), int(y+h)], '  ', x, y)
+      pygame.draw.rect(screen, blue, [int(x-w1), int(y-h1), w1+20, h1+20], 3)
+      #print([int(x-w1), int(y-h1), w1, h1], [int(x-w), int(y-h), w, h], '  ', x, y)
+
+    elif(det['name']=='person'):
+      x = det['x_loc']
+      h = 70
+      w = 70
+      h1 = 100
+      w1 = 100
+      area = det['box_area']
+      if(area <=292):
+        y = 72
+      elif(area >292 and area <= 579):
+        y = 216
+      elif(area > 579 and area <=1570):
+        y= 504
+      elif(area > 1570 and area <=8640):
+        y= 648
+      else:
+        y=650
+        x=0
+        w = 1280
+        h = 200
+      pygame.draw.rect(screen, blue, [int(x-w), int(y-h), w, h])
+      pygame.draw.rect(screen, blue, [int(x-w1), int(y-h1), w1+30, h1+30], 3)
+      #print([int(x-w1), int(y-h1), w1, h1], [int(x-w), int(y-h), w, h], '  ', x, y)
     
     else:
       t1=dict()
