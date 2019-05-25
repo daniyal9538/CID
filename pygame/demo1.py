@@ -27,6 +27,8 @@ green = (0,200, 0)
 grey = (200, 200, 200)
 yellow = (222,200,0)
 blue = (0,0,200)
+red = (200, 0, 0)
+orange  = (236, 166, 25)
 
 
 pygame.init()
@@ -88,6 +90,7 @@ for count, i in enumerate(data):
       #print([int(x-w1), int(y-h1), w1, h1], [int(x-w), int(y-h), w, h], '  ', x, y)
 
     elif(det['name']=='person'):
+      color = orange
       x = det['x_loc']
       h = 70
       w = 70
@@ -107,8 +110,9 @@ for count, i in enumerate(data):
         x=0
         w = 1280
         h = 200
-      pygame.draw.rect(screen, blue, [int(x-w), int(y-h), w, h])
-      pygame.draw.rect(screen, blue, [int(x-w1), int(y-h1), w1+30, h1+30], 3)
+        color = red
+      pygame.draw.rect(screen, color, [int(x-w), int(y-h), w, h])
+      pygame.draw.rect(screen, color, [int(x-w1), int(y-h1), w1+30, h1+30], 3)
       #print([int(x-w1), int(y-h1), w1, h1], [int(x-w), int(y-h), w, h], '  ', x, y)
     
     else:
