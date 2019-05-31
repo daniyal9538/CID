@@ -167,9 +167,9 @@ def game_loop(dataLen):
     reward = 0
     limits = []
     count = 0
-    timeOut = 10
+    timeOut = 5
     frameRate = 30
-    events = []
+    ev = []
     log = []
 
     while not gameExit:
@@ -190,10 +190,11 @@ def game_loop(dataLen):
                 if event.key == pygame.K_RIGHT:
                     x_change = 5
                 if event.key == pygame.K_SPACE:
-                    try:
-                        dunmpToJson(log, 'log_file')
-                    except:
-                        pass
+                    dunmpToJson(log, 'log_file')
+                    # try:
+                    #     dunmpToJson(log, 'log_file')
+                    # except:
+                    #     pass
                         
                     sys.exit(0)
               
@@ -204,8 +205,18 @@ def game_loop(dataLen):
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     x_change = 0
         #count = count % 4
-        
+        #print(ev)
         if(turnCount >= turnLimit or count>(timeOut*frameRate)):
+            #print(ev)
+            sampled =sampler(turnLimit, x_change, threshold = 0)
+            log_dict = dict()
+            log_dict['frame'] = frame
+            log_dict['events'] = " ".join(str(x) for x in ev)
+            #print(log_dict['events'])
+            log_dict['ticks'] = count
+            log_dict['rewards'] = reward
+            log_dict['sampled decision'] = sampled
+            log_dict['number of moves'] = turnCount
             turnCount = 0
             frame += 1
             
@@ -215,18 +226,15 @@ def game_loop(dataLen):
             print('reward for frame {}: {}'.format(frame, reward))
             print('--------------------------')
             limits.clear()
-            sampled = sampler(turnLimit, x_change, threshold = 0)
+            
             print('--------------------------')
             print('decision flag array', sampled)
             print('--------------------------')
-            log_dict = dict()
-            log_dict['frame'] = frame
-            log_dict['events'] = events
-            log_dict['ticks'] = count
-            log_dict['rewards'] = reward
-            log_dict['sampled decision'] = sampled
+            
+            
             log.append(log_dict)
-            events.clear()
+            del(log_dict)
+            ev.clear()
             frame = frame % dataLen
             count = 0
             reward = 0
@@ -255,7 +263,7 @@ def game_loop(dataLen):
 
         if x > display_width - car_width or x < 0:
             reward -= 12
-            events.append(12)
+            ev.append(12)
             print('out of bounds', reward)
         
         for i in limits:
@@ -266,11 +274,11 @@ def game_loop(dataLen):
             if((x + car_width>x1 and x<x2)):
                 if (n == 'person'):
                     reward -= 10
-                    events.append(10)
+                    ev.append(10)
                     print('crashed in person', reward)
                 if (n == 'car'):
                     reward -= 8
-                    events.append(8)
+                    ev.append(8)
                     print('crashed in car', reward)
 
 
@@ -285,8 +293,8 @@ def game_loop(dataLen):
                 #print('x crossover')
             #print(mina, maxa, x)
             reward -= 1
-            events.append(1)
-            print('not in lane', reward)
+            ev.append(1)
+            #print('not in lane', reward)
             
 
         
@@ -294,7 +302,7 @@ def game_loop(dataLen):
             
         ####
         count+=1
-        print("tick: {}||frame: {}||turn: {}||reward: {}||events: {}".format(count, frame, turnCount, reward, events))
+        print("tick: {}||frame: {}||turn: {}||reward: {}||events: {}".format(count, frame, turnCount, reward, ev))
         pygame.display.update()
         clock.tick(frameRate)
 
