@@ -229,6 +229,7 @@ def game_loop(dataLen):
             events.clear()
             frame = frame % dataLen
             count = 0
+            reward = 0
             #print('turn limit reached', frame)
             
         x += x_change
