@@ -4,6 +4,10 @@ import pygame
 import sys
 import helper
 
+def dunmpToJson(frame_dict, name):
+  with open(name+'.json', "w") as write_file:
+    json.dump(frame_dict, write_file, indent=4)
+
 def text_objects(text, font):
     textSurface = font.render(text, True, (255,255,0))
     return textSurface, textSurface.get_rect()
