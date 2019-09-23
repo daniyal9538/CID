@@ -13,5 +13,5 @@ I believe that the rate of innovation and development always increases when a po
 The goal of this project is to investigate whether it is possible to not only a build a self driving car (people have already build programs that can drive cars in a video game), but a full autonomous driving solution that can work in a simulated environment (We will be using the open world of GTA 5). Such a solution should not only be able to navigate the roads of the environment, but also make meaningful and correct decison. We will also explore if such an environment is sufficient for testing whatever novel solution for an autonmous car we make.
 
 
-
-For further insight into the project, please read the pdf file in this repository, it holds the initial design and inital work done on this project
+The latest iteration of the project is CIDv0.3
+For further insight into the project, please read the pdf file in the CIDv0.3 folder, it holds the initial design and inital work done on this project
